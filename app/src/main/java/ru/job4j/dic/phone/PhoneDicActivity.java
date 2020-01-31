@@ -1,4 +1,4 @@
-package ru.job4j.dic.PhoneDic;
+package ru.job4j.dic.phone;
 
 import androidx.fragment.app.Fragment;
 
