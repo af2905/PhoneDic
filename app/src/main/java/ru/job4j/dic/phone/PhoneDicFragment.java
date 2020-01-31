@@ -20,6 +20,11 @@ import java.util.List;
 public class PhoneDicFragment extends Fragment {
     private RecyclerView recycler;
     private RecyclerView.Adapter<RecyclerView.ViewHolder> adapter;
+    private static Cursor cursor;
+
+    public static Cursor getCursor() {
+        return cursor;
+    }
 
     @Nullable
     @Override
@@ -38,7 +43,7 @@ public class PhoneDicFragment extends Fragment {
 
     private void loadDic(List<String> phones) {
         String by = "va";
-        Cursor cursor = getActivity().getContentResolver().query(
+        cursor = getActivity().getContentResolver().query(
                 ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
                 new String[]{ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
                         ContactsContract.CommonDataKinds.Phone.NUMBER},
@@ -46,11 +51,7 @@ public class PhoneDicFragment extends Fragment {
                 null, null);
         try {
             while (cursor.moveToNext()) {
-                String name = cursor.getString(cursor.getColumnIndex(
-                        ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
-                String phone = cursor.getString(cursor.getColumnIndex(
-                        ContactsContract.CommonDataKinds.Phone.NUMBER));
-                phones.add(name + " " + phone);
+                phones.add(PhoneStore.getPhoneStore().getNameAndNumber());
             }
             adapter.notifyDataSetChanged();
         } finally {

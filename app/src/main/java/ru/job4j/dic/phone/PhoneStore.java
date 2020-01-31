@@ -1,36 +1,26 @@
 package ru.job4j.dic.phone;
 
-import java.util.ArrayList;
-import java.util.List;
+import android.database.Cursor;
+import android.provider.ContactsContract;
 
 public class PhoneStore {
     public static final PhoneStore INST = new PhoneStore();
-    private final List<String> phones = new ArrayList<>();
+
+    public String getNameAndNumber() {
+        String text;
+        Cursor cursor = PhoneDicFragment.getCursor();
+        String name = cursor.getString(cursor.getColumnIndex(
+                ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
+        String phone = cursor.getString(cursor.getColumnIndex(
+                ContactsContract.CommonDataKinds.Phone.NUMBER));
+        text = name + " " + phone;
+        return text;
+    }
 
     private PhoneStore() {
     }
 
     static PhoneStore getPhoneStore() {
         return INST;
-    }
-
-    void add(String text) {
-        this.phones.add(text);
-    }
-
-    void set(int index, String text) {
-        this.phones.set(index, text);
-    }
-
-    List<String> getAll() {
-        return this.phones;
-    }
-
-    int size() {
-        return phones.size();
-    }
-
-    String get(int index) {
-        return phones.get(index);
     }
 }
